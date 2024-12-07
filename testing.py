@@ -1,6 +1,6 @@
 import unittest
 from eda import calculate_mean, calculate_median, calculate_variance, calculate_std
-from model import fit
+from model import fit, predict
 
 class TestFunctions(unittest.TestCase):
   
@@ -113,6 +113,47 @@ class TestFunctions(unittest.TestCase):
 		y = [1, 2, 3]
 		with self.assertRaises(TypeError):
 			fit(x, y)
+
+	def test_predict_typical(self):
+
+		# test with typical data
+		x = [1, 2, 3, 4, 5]
+		slope = 2.0
+		y_intercept = 1.0
+		expected_y = [3.0, 5.0, 7.0, 9.0, 11.0]
+		self.assertEqual(predict(x, slope, y_intercept), expected_y)
+
+	def test_predict_negative(self):
+
+		# test with negative x and slope values
+		x = [-1, -2, -3, -4]
+		slope = -2.0
+		y_intercept = 3.0
+		expected_y = [5.0, 7.0, 9.0, 11.0]
+		self.assertEqual(predict(x, slope, y_intercept), expected_y)
+
+	def test_predict_bad_input(self):
+
+		# test with non-numeric x value
+		x = ["a", "b", "c", "d"]
+		slope = 2.0
+		y_intercept = 1.0
+		with self.assertRaises(TypeError):
+			predict(x, slope, y_intercept)
+
+		# test with non-numeric slope
+		x = [1, 2, 3]
+		slope = "a"
+		y_intercept = 1.0
+		with self.assertRaises(TypeError):
+			predict(x, slope, y_intercept)
+
+		# test with non-numeric y intercept
+		x = [1, 2, 3]
+		slope = 2.0
+		y_intercept = "a"
+		with self.assertRaises(TypeError):
+			predict(x, slope, y_intercept)	
 
 if __name__ == '__main__':
     unittest.main()
