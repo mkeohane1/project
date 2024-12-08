@@ -1,5 +1,5 @@
 # DS5010 Project
-# End-to-End Linear Regression Toolkit
+# Simple Linear Regression Toolkit
 
 ## Overview
 This Python package provides a collection of tools to streamline the end-to-end workflow of building, training, and evaluating linear regression models. It handles everything from data cleaning and preprocessing, through exploratory data analysis and feature selection, to model fitting, residual analysis, and evaluation.
