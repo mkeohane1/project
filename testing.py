@@ -1,6 +1,7 @@
 import unittest
 from eda import calculate_mean, calculate_median, calculate_variance, calculate_std
 from model import fit, predict
+from evaluation import calculate_mse, calculate_r_squared
 
 class TestFunctions(unittest.TestCase):
   
@@ -153,7 +154,39 @@ class TestFunctions(unittest.TestCase):
 		slope = 2.0
 		y_intercept = "a"
 		with self.assertRaises(TypeError):
-			predict(x, slope, y_intercept)	
+			predict(x, slope, y_intercept)
+
+	def test_mse(self):
+
+		# test with typical data
+		y = [3, -0.5, 2, 7]
+		predicted_y = [2.5, 0.0, 2, 8]
+		expected_mse = sum([(actual - predicted) ** 2 for actual, predicted\
+							in zip(y, predicted_y)]) / len(y)
+		self.assertEqual(calculate_mse(y, predicted_y), expected_mse)
+	
+		# test with non-numeric data
+		y = [1, 2, 3]
+		predicted_y = ["a", "b", "c"]
+		with self.assertRaises(TypeError):
+			calculate_mse(y, predicted_y)
+
+	def test_rsq(self):
+
+		# test with typical data
+		y = [3, -0.5, 2, 7]
+		predicted_y = [2.5, 0.0, 2, 8]
+		total_variance = calculate_variance(y)
+		explained_variance = calculate_variance(predicted_y)
+		expected_r_squared = explained_variance / total_variance
+		self.assertEqual(calculate_r_squared(y, predicted_y), expected_r_squared)
+	
+		# test with non-numeric data
+		y = [1, 2, 3]
+		predicted_y = ["a", "b", "c"]
+		with self.assertRaises(TypeError):
+			calculate_r_squared(y, predicted_y)
+
 
 if __name__ == '__main__':
-    unittest.main()
+	unittest.main()
